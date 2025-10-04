@@ -1,0 +1,107 @@
+/* ====================================== */
+/*  Sidebar container                     */
+/* ====================================== */
+.layout-sidebar {
+  width: 250px;
+  flex-shrink: 0;
+  background: #f1f1f1;
+  padding: 20px;
+  border-right: 1px solid #ddd;
+  color: #000;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* ====================================== */
+/*  Field Selector                        */
+/* ====================================== */
+.field-selector {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 25px;
+  width: 100%;
+}
+
+.field-selector label {
+  font-weight: bold;
+  margin-bottom: 8px;
+  font-size: 1.05rem;
+  color: inherit; /* παίρνει χρώμα από dark/light mode */
+}
+
+.field-selector select {
+  padding: 12px 15px; /* μεγαλύτερο για touch */
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  color: #000;
+  width: 100%;
+  box-sizing: border-box;
+  appearance: none; /* καθαρό στυλ χωρίς default arrow */
+  cursor: pointer;
+}
+
+/* Hover/Focus για καλύτερη αίσθηση */
+.field-selector select:focus {
+  outline: none;
+  border-color: #2d6a4f;
+  box-shadow: 0 0 0 2px rgba(45, 106, 79, 0.2);
+}
+
+/* ====================================== */
+/*  Stock info container                  */
+/* ====================================== */
+.stock-info {
+  background: #e0e0e0;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  width: 100%;
+  box-sizing: border-box;
+  color: #000;
+}
+
+/* ====================================== */
+/*  Responsive για κινητό                 */
+/* ====================================== */
+@media (max-width: 768px) {
+  .layout-sidebar {
+    width: 100%;
+    border-right: none;
+    border-top: 1px solid #ddd;
+  }
+
+  .stock-info {
+    width: 100%;
+  }
+
+  .field-selector select {
+    font-size: 1.1rem;
+    padding: 14px 16px;
+  }
+}
+
+/* ====================================== */
+/*  Dark mode support                     */
+/* ====================================== */
+@media (prefers-color-scheme: dark) {
+  .layout-sidebar {
+    background: #2c2c2c;
+    color: #fff;
+    border-right: 1px solid #444;
+    border-top: 1px solid #444;
+  }
+
+  .field-selector select {
+    background-color: #333;
+    color: #fff;
+    border: 1px solid #555;
+  }
+
+  .stock-info {
+    background: #3a3a3a;
+    border: 1px solid #555;
+    color: #fff;
+  }
+}

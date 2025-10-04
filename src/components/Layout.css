@@ -1,0 +1,171 @@
+/* ====================================== */
+/*  Global settings                       */
+/* ====================================== */
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box; /* padding & border μετράνε μέσα στο width/height */
+}
+
+/* ====================================== */
+/*  Main layout                           */
+/* ====================================== */
+.layout {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+/* Header */
+.layout-header {
+  background: #2d6a4f;
+  color: #fff;
+  padding: 15px;
+  font-size: 1.5em;
+  flex-shrink: 0;
+}
+
+/* Σώμα: sidebar + main */
+.layout-body {
+  display: flex;
+  flex: 1;         /* καταλαμβάνει όλο το διαθέσιμο ύψος */
+  width: 100%;     /* καταλαμβάνει όλο το διαθέσιμο πλάτος */
+  flex-direction: row;
+  overflow: hidden; /* προλαμβάνει overflow */
+}
+
+/* Sidebar */
+.layout-sidebar {
+  width: 250px;
+  flex-shrink: 0;
+  background: #f1f1f1;
+  padding: 15px;
+  border-right: 1px solid #ddd;
+  color: #000;
+  overflow-y: auto;
+  overflow-x: hidden; /* Αποτρέπει οριζόντιο scroll */
+}
+
+/* Main content */
+.layout-main {
+  flex: 1;
+  padding: 20px;
+  color: #000;
+  overflow-y: auto;
+  overflow-x: hidden; /* Αποτρέπει οριζόντιο scroll */
+}
+
+/* ====================================== */
+/*  TaskForm Styles                        */
+/* ====================================== */
+.task-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: #f3f3f3;
+  padding: 15px;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 400px;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+}
+
+.task-form label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 500;
+}
+
+.task-form input,
+.task-form select,
+.task-form textarea {
+  padding: 5px 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.task-form button {
+  align-self: flex-start;
+  padding: 8px 15px;
+  border: none;
+  background-color: #4caf50;
+  color: white;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.task-form button:hover {
+  background-color: #45a049;
+}
+
+/* ====================================== */
+/*  Responsive για κινητό                */
+/* ====================================== */
+@media (max-width: 768px) {
+  .layout-body {
+    flex-direction: column;
+  }
+
+  .layout-sidebar,
+  .layout-main {
+    width: 100%;
+    border-right: none;
+    border-top: 1px solid #ddd;
+  }
+
+  .task-form {
+    max-width: 100%;
+  }
+
+  .task-form button {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* ====================================== */
+/*  Dark mode support                     */
+/* ====================================== */
+@media (prefers-color-scheme: dark) {
+  .layout-header {
+    background: #1b4332;
+    color: #fff;
+  }
+
+  .layout-sidebar {
+    background: #2c2c2c;
+    color: #fff;
+    border-right: 1px solid #444;
+    border-top: 1px solid #444;
+  }
+
+  .layout-main {
+    background: #1a1a1a;
+    color: #fff;
+  }
+
+  .task-form {
+    background-color: #1e1e1e;
+    color: #eee;
+  }
+
+  .task-form input,
+  .task-form select,
+  .task-form textarea {
+    background-color: #2b2b2b;
+    color: #eee;
+    border: 1px solid #555;
+  }
+}
