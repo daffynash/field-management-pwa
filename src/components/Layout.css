@@ -304,7 +304,7 @@ html, body, #root {
 }
 .hand-date {
   margin-left: 8px; /* Προσθέτει κενό μεταξύ του τίτλου και της ημερομηνίας */
-  font-weight: normal;
+  font-weight: 500;
   color: #374151; /* λίγο πιο σκούρο για καλύτερη ορατότητα */
 }
 
@@ -330,3 +330,11 @@ html, body, #root {
   background-color: #ef4444 !important; /* Κόκκινο για Δέσιμο */
 }
 
+@media (prefers-color-scheme: dark) {
+  .hand-date {
+    color: #bbf7d0; /* πιο ανοιχτό πράσινο για να φαίνεται καλά σε dark bg */
+    font-weight: normal;
+    margin-left: 8px; /* κρατάμε το κενό από το task type */
+    font-size: 0.8rem;
+  }
+}
