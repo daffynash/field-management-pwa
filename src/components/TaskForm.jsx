@@ -1,4 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+
+const TASK_TYPES = {
+  CUT: "Κόψιμο",
+  TURN: "Γύρισμα",
+  BIND: "Δέσιμο"
+};
 
 const getToday = () => {
   const today = new Date();
@@ -9,29 +15,38 @@ const getToday = () => {
 };
 
 export default function TaskForm({ onSave, currentHand }) {
-  const defaultTaskType = !currentHand
-    ? "Κόψιμο"
-    : currentHand.tasks.find(t => t.taskType === "Γύρισμα")
-      ? "Δέσιμο"
-      : "Γύρισμα";
-
-  const [taskType, setTaskType] = useState(defaultTaskType);
+  const [taskType, setTaskType] = useState(TASK_TYPES.CUT);
   const [date, setDate] = useState(getToday());
   const [comments, setComments] = useState("");
   const [baleNumber, setBaleNumber] = useState("");
   const [baleType, setBaleType] = useState("Τετράγωνη");
 
+  // Όταν αλλάζει το currentHand, θέτουμε σωστά τις default τιμές
+  useEffect(() => {
+    if (!currentHand) {
+      setTaskType(TASK_TYPES.CUT);
+    } else {
+      const hasTurn = currentHand.tasks.some(t => t.taskType === TASK_TYPES.TURN);
+      setTaskType(hasTurn ? TASK_TYPES.BIND : TASK_TYPES.TURN);
+    }
+
+    setDate(getToday());
+    setComments("");
+    setBaleNumber("");
+    setBaleType("Τετράγωνη");
+  }, [currentHand]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     onSave({ taskType, date, comments, baleNumber, baleType });
 
-    const newDefault = !currentHand
-      ? "Κόψιμο"
-      : currentHand.tasks.find(t => t.taskType === "Γύρισμα")
-        ? "Δέσιμο"
-        : "Γύρισμα";
-
-    setTaskType(newDefault);
+    // Επαναφορά πεδίων μετά το save
+    if (!currentHand) {
+      setTaskType(TASK_TYPES.CUT);
+    } else {
+      const hasTurn = currentHand.tasks.some(t => t.taskType === TASK_TYPES.TURN);
+      setTaskType(hasTurn ? TASK_TYPES.BIND : TASK_TYPES.TURN);
+    }
     setDate(getToday());
     setComments("");
     setBaleNumber("");
@@ -43,17 +58,17 @@ export default function TaskForm({ onSave, currentHand }) {
       <label>
         Είδος Εργασίας:
         <select value={taskType} onChange={(e) => setTaskType(e.target.value)}>
-          {!currentHand && <option value="Κόψιμο">Κόψιμο</option>}
+          {!currentHand && <option value={TASK_TYPES.CUT}>Κόψιμο</option>}
           {currentHand && (
             <>
-              <option value="Γύρισμα">Γύρισμα</option>
-              <option value="Δέσιμο">Δέσιμο</option>
+              <option value={TASK_TYPES.TURN}>Γύρισμα</option>
+              <option value={TASK_TYPES.BIND}>Δέσιμο</option>
             </>
           )}
         </select>
       </label>
 
-      {(taskType === "Κόψιμο" || taskType === "Γύρισμα") && (
+      {(taskType === TASK_TYPES.CUT || taskType === TASK_TYPES.TURN) && (
         <>
           <label>
             Ημερομηνία:
@@ -66,7 +81,7 @@ export default function TaskForm({ onSave, currentHand }) {
         </>
       )}
 
-      {taskType === "Δέσιμο" && (
+      {taskType === TASK_TYPES.BIND && (
         <>
           <label>
             Αριθμός Μπαλών:

@@ -10,7 +10,7 @@ html, body, #root {
 }
 
 *, *::before, *::after {
-  box-sizing: border-box; /* padding & border μετράνε μέσα στο width/height */
+  box-sizing: border-box;
 }
 
 /* ====================================== */
@@ -35,10 +35,10 @@ html, body, #root {
 /* Σώμα: sidebar + main */
 .layout-body {
   display: flex;
-  flex: 1;         /* καταλαμβάνει όλο το διαθέσιμο ύψος */
-  width: 100%;     /* καταλαμβάνει όλο το διαθέσιμο πλάτος */
+  flex: 1;
+  width: 100%;
   flex-direction: row;
-  overflow: hidden; /* προλαμβάνει overflow */
+  overflow: hidden;
 }
 
 /* Sidebar */
@@ -50,7 +50,7 @@ html, body, #root {
   border-right: 1px solid #ddd;
   color: #000;
   overflow-y: auto;
-  overflow-x: hidden; /* Αποτρέπει οριζόντιο scroll */
+  overflow-x: hidden;
 }
 
 /* Main content */
@@ -59,7 +59,7 @@ html, body, #root {
   padding: 20px;
   color: #000;
   overflow-y: auto;
-  overflow-x: hidden; /* Αποτρέπει οριζόντιο scroll */
+  overflow-x: hidden;
 }
 
 /* ====================================== */
@@ -104,10 +104,76 @@ html, body, #root {
   font-weight: bold;
   border-radius: 5px;
   cursor: pointer;
+  transition: background-color 0.2s;
 }
 
 .task-form button:hover {
   background-color: #45a049;
+}
+
+/* ====================================== */
+/*  Hands UI                               */
+/* ====================================== */
+.current-hand {
+  background-color: #d1fae5; /* ανοιχτό πράσινο */
+  border-left: 4px solid #10b981;
+  padding: 10px;
+  margin-bottom: 8px;
+  border-radius: 5px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.completed-hand {
+  background-color: #f3f4f6; /* ανοιχτό γκρι */
+  border-left: 4px solid #3b82f6; /* μπλε */
+  padding: 10px;
+  margin-bottom: 8px;
+  border-radius: 5px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.hand-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.hand-label {
+  font-weight: bold;
+  font-size: 0.9rem;
+  color: #374151;
+}
+
+.hand-date {
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+
+/* Button για νέα εργασία */
+.add-task-btn {
+  background-color: #10b981;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.add-task-btn:hover {
+  background-color: #059669;
+}
+
+/* Inputs στο form */
+.task-input {
+  padding: 8px 10px;
+  border-radius: 5px;
+  border: 1px solid #d1d5db;
+  margin-bottom: 10px;
+  width: 100%;
+  font-size: 0.9rem;
+  box-sizing: border-box;
 }
 
 /* ====================================== */
@@ -129,9 +195,15 @@ html, body, #root {
     max-width: 100%;
   }
 
-  .task-form button {
+  .task-form button,
+  .add-task-btn {
     width: 100%;
     text-align: center;
+  }
+
+  .current-hand,
+  .completed-hand {
+    width: 100%;
   }
 }
 
@@ -168,4 +240,93 @@ html, body, #root {
     color: #eee;
     border: 1px solid #555;
   }
+
+  .current-hand {
+    background-color: #14532d;
+    border-left-color: #22c55e;
+    color: #d1fae5;
+  }
+
+  .completed-hand {
+    background-color: #1f2937;
+    border-left-color: #3b82f6;
+    color: #f3f4f6;
+  }
+
+  .hand-label {
+    color: #fff;
+  }
+
+  .hand-date {
+    color: #d1d5db;
+  }
 }
+
+/* Tooltip container */
+.task-tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+/* Tooltip text */
+.task-tooltip .tooltip-text {
+  visibility: hidden;
+  width: max-content;
+  max-width: 200px;
+  background-color: #333;
+  color: #fff;
+  text-align: left;
+  padding: 5px 8px;
+  border-radius: 4px;
+  position: absolute;
+  z-index: 10;
+  bottom: 125%; /* πάνω από το στοιχείο */
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  font-size: 0.75rem;
+  pointer-events: none;
+}
+
+/* Show tooltip on hover */
+.task-tooltip:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Adjust for mobile tap (optional) */
+@media (max-width: 768px) {
+  .task-tooltip .tooltip-text {
+    bottom: 150%;
+  }
+}
+.hand-date {
+  margin-left: 8px; /* Προσθέτει κενό μεταξύ του τίτλου και της ημερομηνίας */
+  font-weight: normal;
+  color: #374151; /* λίγο πιο σκούρο για καλύτερη ορατότητα */
+}
+
+/* Task type colors */
+.task-type {
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: #fff !important; /* αναγκαστικά λευκό για να φαίνεται πάνω σε dark mode */
+  font-size: 0.85rem;
+}
+
+/* Task type colors */
+.task-cut {
+  background-color: #4caf50 !important; /* Πράσινο για Κοψιμο */
+}
+
+.task-turn {
+  background-color: #f59e0b !important; /* Κίτρινο/πορτοκαλί για Γύρισμα */
+}
+
+.task-bind {
+  background-color: #ef4444 !important; /* Κόκκινο για Δέσιμο */
+}
+
