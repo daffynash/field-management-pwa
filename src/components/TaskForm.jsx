@@ -1,13 +1,7 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 // eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from "framer-motion";
-import "./TaskForm.css";
-
-const TASK_TYPES = {
-  CUT: "Κόψιμο",
-  TURN: "Γύρισμα",
-  BIND: "Δέσιμο"
-};
+import { TASK_TYPES } from "./TaskTypes";
 
 const getToday = () => {
   const today = new Date();
@@ -42,15 +36,8 @@ export default function TaskForm({ onSave, currentHand }) {
     onSave({ taskType, date, comments, baleNumber, baleType });
   };
 
-  // Framer Motion Variants
-  const containerVariants = {
-    hidden: {},
-    visible: { transition: { staggerChildren: 0.15 } }
-  };
-  const fieldVariants = {
-    hidden: { opacity: 0, y: -10 },
-    visible: { opacity: 1, y: 0 }
-  };
+  const containerVariants = { hidden: {}, visible: { transition: { staggerChildren: 0.15 } } };
+  const fieldVariants = { hidden: { opacity: 0, y: -10 }, visible: { opacity: 1, y: 0 } };
 
   return (
     <form className="task-form" onSubmit={handleSubmit}>
@@ -69,11 +56,7 @@ export default function TaskForm({ onSave, currentHand }) {
 
       <AnimatePresence mode="wait">
         {(taskType === TASK_TYPES.CUT || taskType === TASK_TYPES.TURN) && (
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={containerVariants}
-          >
+          <motion.div initial="hidden" animate="visible" variants={containerVariants}>
             <div className="form-row">
               <motion.label variants={fieldVariants}>
                 Ημερομηνία:
@@ -91,11 +74,7 @@ export default function TaskForm({ onSave, currentHand }) {
         )}
 
         {taskType === TASK_TYPES.BIND && (
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={containerVariants}
-          >
+          <motion.div initial="hidden" animate="visible" variants={containerVariants}>
             <div className="form-row">
               <motion.label variants={fieldVariants}>
                 Αριθμός Μπαλών:

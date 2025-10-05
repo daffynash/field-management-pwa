@@ -2,28 +2,22 @@ import React, { useState } from "react";
 import FieldSelector from "./FieldSelector";
 import StockInfo from "./StockInfo";
 import TaskForm from "./TaskForm";
+import AddFieldForm from "./AddFieldForm";
 import { TASK_TYPES } from "./TaskTypes";
-import "./Layout.css";
 
-const testFields = [
-  { id: "1", name: "Χωράφι 1", area: 5 },
-  { id: "2", name: "Χωράφι 2", area: 8 },
-  { id: "3", name: "Χωράφι 3", area: 12 }
-];
-
-const testStock = {
-  squareBales: 10,
-  roundBales: 5
-};
-
-export default function Layout({ fields = testFields, stock = testStock }) {
+export default function Layout({ fields, setFields, stock }) {
   const [selectedField, setSelectedField] = useState(fields[0]?.id || "");
   const [showForm, setShowForm] = useState(false);
   const [currentHand, setCurrentHand] = useState(null);
   const [completedHands, setCompletedHands] = useState([]);
+  const [showAddFieldForm, setShowAddFieldForm] = useState(false);
 
-  const handleFieldChange = (fieldId) => {
-    setSelectedField(fieldId);
+  const handleFieldChange = (fieldId) => setSelectedField(fieldId);
+
+  const handleFieldAdded = (newField) => {
+    setFields((prev) => [...prev, newField]);
+    setShowAddFieldForm(false);
+    alert(`Νέο χωράφι "${newField.name}" αποθηκεύτηκε!`);
   };
 
   const handleSaveTask = (task) => {
@@ -32,7 +26,6 @@ export default function Layout({ fields = testFields, stock = testStock }) {
     } else {
       const updatedTasks = [...currentHand.tasks, task];
       const updatedHand = { ...currentHand, tasks: updatedTasks };
-
       if (task.taskType === TASK_TYPES.BIND) {
         setCompletedHands([...completedHands, updatedHand]);
         setCurrentHand(null);
@@ -44,7 +37,6 @@ export default function Layout({ fields = testFields, stock = testStock }) {
   };
 
   const renderTask = (task, idx) => {
-    // Καθορισμός class ανά είδος εργασίας
     const getTaskClass = (type) => {
       switch (type) {
         case TASK_TYPES.CUT: return "task-type task-cut";
@@ -60,13 +52,9 @@ export default function Layout({ fields = testFields, stock = testStock }) {
     `.trim();
 
     return (
-      <div key={idx} style={{ marginBottom: "4px" }} className="task-tooltip">
-        <span className={getTaskClass(task.taskType)}>
-          {task.taskType}
-        </span>
-        <span className="hand-date" style={{ marginLeft: "6px" }}>
-          {task.date}
-        </span>
+      <div key={idx} className="task-tooltip">
+        <span className={getTaskClass(task.taskType)}>{task.taskType}</span>
+        <span className="hand-date">{task.date}</span>
         {tooltipText && <span className="tooltip-text">{tooltipText}</span>}
       </div>
     );
@@ -86,9 +74,18 @@ export default function Layout({ fields = testFields, stock = testStock }) {
         </aside>
 
         <main className="layout-main">
-          <h2>Εργασίες Χωραφιού</h2>
+          <h2>Χωράφια & Εργασίες</h2>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+          <div className="buttons-row">
+            <button
+              className="add-field-btn"
+              onClick={() => setShowAddFieldForm((prev) => !prev)}
+            >
+              Προσθήκη Νέου Χωραφιού
+            </button>
+
+            {showAddFieldForm && <AddFieldForm onSuccess={handleFieldAdded} />}
+
             <button className="add-task-btn" onClick={() => setShowForm(true)}>
               {currentHand ? "Συνέχιση Τρέχοντος Χεριού" : "Νέα Εργασία"}
             </button>

@@ -1,33 +1,17 @@
 import React, { useState } from "react";
 import Layout from "./components/Layout";
-import FieldSelector from "./components/FieldSelector";
 import StockInfo from "./components/StockInfo";
 
 function App() {
-  const fields = [
+  const [fields, setFields] = useState([
     { id: 1, name: "Χωράφι Α", area: 10 },
     { id: 2, name: "Χωράφι Β", area: 15 },
     { id: 3, name: "Χωράφι Γ", area: 8 },
-  ];
+  ]);
 
-  const [selectedField, setSelectedField] = useState(null);
+  const testStock = { squareBales: 10, roundBales: 5 };
 
-  return (
-    <Layout
-      header={<div>🌾 Farm Manager</div>}
-      sidebar={<StockInfo />}
-      main={
-        <div>
-          <FieldSelector fields={fields} onSelect={setSelectedField} />
-          {selectedField && (
-            <h2>
-              {selectedField.name} - {selectedField.area} στρ.
-            </h2>
-          )}
-        </div>
-      }
-    />
-  );
+  return <Layout fields={fields} setFields={setFields} stock={testStock} />;
 }
 
 export default App;

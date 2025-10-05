@@ -8,7 +8,7 @@ function StockInfo() {
   });
 
   return (
-    <div style={{ marginTop: "20px", padding: "10px", border: "1px solid #ccc", borderRadius: "8px" }}>
+    <div className="stock-info">
       <h3>Στοκ Παραγόμενου Προϊόντος</h3>
       <p>🟩 Τετράγωνες μπάλες: {stock.square}</p>
       <p>⚪ Στρογγυλές μπάλες: {stock.round}</p>
