@@ -15,10 +15,12 @@ export default function Layout({ fields, setFields, stock }) {
   const handleFieldChange = (fieldId) => setSelectedField(fieldId);
 
   const handleFieldAdded = (newField) => {
-    setFields((prev) => [...prev, newField]);
-    setShowAddFieldForm(false);
-    alert(`Νέο χωράφι "${newField.name}" αποθηκεύτηκε!`);
-  };
+  if (newField) {
+    setFields(prev => [...prev, newField]);
+    setSelectedField(newField);
+    setCurrentHand(null); // optional reset
+  }
+};
 
   const handleSaveTask = (task) => {
     if (!currentHand) {
