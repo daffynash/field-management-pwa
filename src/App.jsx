@@ -5,8 +5,8 @@ import { db } from "./firebaseConfig";
 
 function App() {
   const [fields, setFields] = useState([]);
-  const [stock, setStock] = useState({ squareBales: 0, roundBales: 0 }); // αρχικά κενό ή default
-
+  //const [stock, setStock] = useState({ squareBales: 0, roundBales: 0 }); // αρχικά κενό ή default
+   const stock = { squareBales: 10, roundBales: 5 };
   // Firestore listener για τα Fields
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, "Fields"), (snapshot) => {
